@@ -1,0 +1,24 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+
+<center style="margin-top:10%">
+<table border="1">
+    <tr>
+        <th>Project name</th>
+        <th>Batch name</th>
+        <th> Status </th>
+    </tr>
+{% for batch in batches %}
+    <tr>
+        <td>{{ batch.project }}</td>
+        <td>{{ batch.name }}</td>
+        <td>{{ batch.status }}</td>
+
+
+    </tr>
+{% endfor %}
+    </table>
+    </center>
+
+{% endblock %}
