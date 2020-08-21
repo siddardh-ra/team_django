@@ -64,14 +64,17 @@ def process_upload(request):
 
         with zipfile.ZipFile(zip_path, "r") as zip_ref:
             zip_ref.extractall(path+"/extracted/")
-
-        files = [f for f in os.listdir(extracted_path) if f.endswith('.jpeg') or f.endswith('.jpg') or f.endswith('.png')]
+        files=[]
+        for r, d, f in os.walk(extracted_path):
+            for f in f:
+                if f.endswith('.jpeg') or f.endswith('.jpg') or f.endswith('.png'):
+                    files.append(os.path.join(r, f))
+        print(files,len(files))
         new_batch.total_images = len(files)
         new_batch.save()
         
         for file in files:
             bank = ImageBank()
-            print(request.build_absolute_uri.__dict__)
             #print(request.scheme,'://',request.META.HTTP_HOST)
             bank.URL = extracted_path+"/"+file
             bank.file_name = file
