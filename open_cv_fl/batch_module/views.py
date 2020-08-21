@@ -69,15 +69,21 @@ def process_upload(request):
             for f in f:
                 if f.endswith('.jpeg') or f.endswith('.jpg') or f.endswith('.png'):
                     files.append(os.path.join(r, f))
+
+        # for f in files:
+        #     print(f)
+        # files = [f for f in os.listdir(extracted_path+request.FILES['batch'].name+"/") if f.endswith('.jpeg') or f.endswith('.jpg') or f.endswith('.png')]
         print(files,len(files))
         new_batch.total_images = len(files)
         new_batch.save()
         
         for file in files:
             bank = ImageBank()
+            filename_temp=(file.split("/")[-1]).split(".")
+            print(filename_temp)
             #print(request.scheme,'://',request.META.HTTP_HOST)
-            bank.URL = extracted_path+"/"+file
-            bank.file_name = file
+            bank.URL = file
+            bank.file_name = filename_temp[0]
             bank.batch = new_batch
             bank.save()
 
